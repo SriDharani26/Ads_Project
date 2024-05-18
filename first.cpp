@@ -80,13 +80,20 @@ public:
 int main() {
     Graph g;
 
-    g.ivertex({1,'a'});
-    g.ivertex({2,'a'});
-    g.ivertex({3,'a'});
-    g.ivertex({3,'b'});
+    g.ivertex({11,'h'});
+    g.ivertex({12,'h'});
+    g.ivertex({13,'h'});
+    g.ivertex({4,'s'});
+    g.ivertex({5,'s'});
+    g.ivertex({6,'s'});
+    g.ivertex({7,'s'});
+    g.ivertex({1,'c'});
+    g.ivertex({2,'c'});
+    g.ivertex({3,'c'});
+    g.ivertex({8,'s'});
+    g.ivertex({9,'s'});
+    g.ivertex({10,'s'});
 
-    g.ivertex({4,'h'});
-    // g.printvertex();
     g.addedge();
     g.printadj();
 
