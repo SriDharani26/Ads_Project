@@ -84,7 +84,9 @@ public:
     }
 
     void nearest(vertex * v,int count){
-        // v->card.visit=true;
+        
+        // cout<<v->card.symbol<<v->card.value<<endl;
+
        
         for(auto i:v->wadj){
             
@@ -92,51 +94,50 @@ public:
                 if(i.second==1){
                     cout<<i.first->card.symbol<<i.first->card.value<<" ";
                     i.first->card.visit=true;
-                    
+                    count+=1;
                      if(count==3 || count ==4){
                         cout<<"one rummy is created"<<endl;
-                        count=1;
+                        count=0;
                     }
                     else{
-                        count+=1;
-                        cout<<endl;
-                    }
-                    nearest(i.first,count);
-                    
-                }
-                // else{
-                //     i.first->card.visit=false;
-                //     cout<<"Single node"<<endl;
-                //     cout<<i.first->card.symbol<<i.first->card.value;
-                // }
-            }
-        }
-        
-    }
-
-    void dummy(vertex *v,int count){
-        for(auto i:v->wadj){
-            
-            if(!i.first->card.visit){
-                if(i.second==0){
-                    cout<<i.first->card.symbol<<i.first->card.value<<" ";
-                    i.first->card.visit=true;
-                    
-                     if(count==3 || count ==4){
-                        cout<<"one dummy rummy is created"<<endl;
-                        count=1;
-                    }
-                    else{
-                        count+=1;
+                        
                         cout<<endl;
                     }
                     nearest(i.first,count);
                     
                 }
                 else{
+                    // cout<<i.first->card.symbol<<i.first->card.value<<"is changed to false"<<endl;
                     i.first->card.visit=false;
-                //     cout<<"Single node"<<endl;
-                //     cout<<i.first->card.symbol<<i.first->card.value;
+                }
+               
+            }
+        }
+        
+    }
+
+    void dummy(vertex *v,int count){
+        // cout<<v->card.symbol<<v->card.value<<endl;
+        for(auto i:v->wadj){
+            
+            if(!i.first->card.visit){
+                if(i.second==0){
+                    cout<<i.first->card.symbol<<i.first->card.value<<" ";
+                    
+                    count+=1;
+                     if(count==3 || count ==4){
+                        cout<<"one dummy rummy is created"<<endl;
+                        count=1;
+                    }
+                    else{
+                        
+                        cout<<endl;
+                    }
+                    nearest(i.first,count);
+                    i.first->card.visit=true;
+                }
+                else{
+                    i.first->card.visit=false;
                 }
             }
         }
@@ -145,7 +146,7 @@ public:
         for(auto i:graph){
             
             if(!i->card.visit){
-                nearest(i,1);
+                nearest(i,0);
             }
             
         }
@@ -153,8 +154,8 @@ public:
             
             if(!i->card.visit){
                 // cout<<"Unvisited node";
-                cout<<i->card.symbol<<""<<i->card.value<<" ";
-                dummy(i,1);
+                // cout<<i->card.symbol<<""<<i->card.value<<" ";
+                dummy(i,0);
             }
         }
     }
