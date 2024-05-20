@@ -117,30 +117,23 @@ public:
     }
 
     void dummy(vertex *v,int count){
-        // cout<<v->card.symbol<<v->card.value<<endl;
         for(auto i:v->wadj){
-            
             if(!i.first->card.visit){
                 if(i.second==0){
-                    cout<<i.first->card.symbol<<i.first->card.value<<" ";
-                    
-                    count+=1;
-                     if(count==3 || count ==4){
-                        cout<<"one dummy rummy is created"<<endl;
-                        count=1;
-                    }
-                    else{
-                        
-                        cout<<endl;
-                    }
-                    nearest(i.first,count);
-                    i.first->card.visit=true;
+                count+=1;
+                i.first->card.visit=true;
                 }
-                else{
-                    i.first->card.visit=false;
-                }
+
             }
+            
+            
         }
+        if(count==3||count==4){
+                cout<<"one dummy set is created ";
+                count=0;
+        }
+
+        
     }
     void checkrum(){
         for(auto i:graph){
@@ -155,7 +148,7 @@ public:
             if(!i->card.visit){
                 // cout<<"Unvisited node";
                 // cout<<i->card.symbol<<""<<i->card.value<<" ";
-                dummy(i,0);
+                dummy(i,1);
             }
         }
     }
@@ -165,21 +158,22 @@ public:
 
 int main() {
     Graph g;
-    g.ivertex({10,'d'});
+   
     g.ivertex({11,'h'});
-    g.ivertex({12,'h'});
-    g.ivertex({13,'h'});
-    g.ivertex({4,'s'});
-    g.ivertex({5,'s'});
-    g.ivertex({6,'s'});
-    g.ivertex({7,'s'});
     
-    g.ivertex({2,'c'});
-    g.ivertex({3,'c'});
-    g.ivertex({4,'c'});
-    g.ivertex({10,'s'});
-    g.ivertex({10,'c'});
-
+    g.ivertex({13,'h'});
+    g.ivertex({4,'a'});
+    g.ivertex({5,'c'});
+    g.ivertex({6,'b'});
+    g.ivertex({7,'d'});
+    
+    g.ivertex({2,'g'});
+    g.ivertex({3,'h'});
+    g.ivertex({4,'y'});
+    g.ivertex({12,'s'});
+    g.ivertex({12,'c'});
+     g.ivertex({12,'d'});
+     g.ivertex({12,'h'});
     g.addedge();
     g.printadj();
 
