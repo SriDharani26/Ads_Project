@@ -72,7 +72,7 @@ public:
     }
 
 
-    void checkrum(){
+    int checkrum(){
         for(auto i:graph){
             i->card.visit=false;
         }
@@ -99,7 +99,7 @@ public:
         }
         int count=0;
         int main=0;
-        for(int i=0;i<13;i++){
+        for(int i=0;i<12;i++){
             cout<<narr[i].symbol<<narr[i].value<<" ";
             if(narr[i].symbol==narr[i+1].symbol){
 
@@ -113,15 +113,14 @@ public:
             }
             
         }
-        cout<<endl;
-        cout<<"No of main set :"<<main<<endl;
-       // return main;
+        return main;
+      
     
     }
-    void checkdum(){
-        for(auto i:graph){
-            i->card.visit=false;
-        }
+    int checkdum(){
+        // for(auto i:graph){
+        //     i->card.visit=false;
+        // }
         Card narr[13];
         int n=0,s=0;
         queue<vertex*> q;
@@ -155,65 +154,69 @@ public:
                 if((count%3)==0||(count%4)==0){
                     count=0;
                     dum+=1;
-                   
-                
                 }   
-                
             }
-            
         }
         cout<<endl;
-      cout<<"No of dum set :"<<dum<<endl;
-   // return dum;
+      return dum;
+ 
     }
 
-    // void rummy(){
-    //     int k=checkdum();
-    //     int l=checkrum();
-    //     if(l>1){
-    //          if(l+k==4){
-    //             cout<<"Total sets :"<<l+k<<endl;
+    void rummy(){
+        int k=checkdum();
+        int l=checkrum();
+        if(l>1){
+             if(l+k==4){
+                cout<<"Total sets :"<<l+k<<endl;
 
-    //             cout<<"You deck is rummy"<<endl;
-    //         }
-    //         else{
-    //             cout<<"Total sets :"<<l+k<<endl;
-    //             cout<<"You deck is not rummy"<<endl;
-    //         }
-    //     }
-    //     else{
-    //             cout<<"Total sets :"<<l+k<<endl;
-    //             cout<<"You deck is not rummy becase there is no main set"<<endl;
-    //         }
+                cout<<"You deck is rummy"<<endl;
+            }
+            else{
+                cout<<"Total sets :"<<l+k<<endl;
+                cout<<"You deck is not rummy"<<endl;
+            }
+        }
+        else{
+                cout<<"Total sets :"<<l+k<<endl;
+                cout<<"You deck is not rummy becase there is no main set"<<endl;
+            }
        
 
-    // }
+    }
 
 
 };
 
 
 int main() {
+
     Graph g;
-   
-    g.ivertex({13,'c'});
-    g.ivertex({5,'h'});
-    g.ivertex({6,'s'});
-    g.ivertex({3,'c'});
-    g.ivertex({7,'h'});
-    g.ivertex({1,'s'});
-    g.ivertex({4,'d'});
-    g.ivertex({5,'d'});
-    g.ivertex({6,'d'});
-    g.ivertex({1,'h'});
-    g.ivertex({5,'c'});
-    g.ivertex({11,'c'});
-    g.ivertex({6,'h'});
+    ifstream card("cards.txt");
+    string value;
+    vector<string> set1;
+    vector<string> set2;
+    vector<string> set3;
+    vector<string> set4;
+    int c=1;
+    while(card>>value && c<14){
+        set1.push_back(value);
+        c++; 
+    }
+
+    
+    sort(set1.begin(), set1.end()); 
+    for(auto deck:set1){
+        cout<<deck<<" ";
+        char suit = deck[0];
+
+        int value = stoi(deck.substr(1));
+        g.ivertex({value,suit});
+    }
+    cout<<endl;
+    
 
     g.addedge();
     g.printadj();
-   // g.rummy();
-     g.checkrum();
-     g.checkdum();
+     g.rummy();
     return 0;
 }
