@@ -24,7 +24,7 @@ public:
 class Graph {
 public:
     int n;
-    int sets=0;
+    int m_sets=0,d_sets=0;
     vector<vertex*> graph;
     
     Graph() : n(0) {}
@@ -86,7 +86,7 @@ public:
                     if(count == 3 || count == 4){
                         
                         cout << "one rummy is created" << endl;
-                        
+                        m_sets+=1;
                         count = 0;
                     }
                     else {
@@ -106,6 +106,7 @@ public:
                 if(count == 3 || count == 4){
                     cout << "one dummy rummy is created" << endl;
                     count = 0;
+                    d_sets+=1;
                 }
                 else {
                     cout << endl;
@@ -148,6 +149,20 @@ public:
         }
     }
 
+    void rummycheck(){
+        if(m_sets>1){
+            if(m_sets+d_sets==4){
+                cout<<"rummy formed"<<endl;
+            }
+            else{
+                cout<<"rummy not formed"<<endl;
+            }
+        }
+        else{
+            cout<<"rummy not formed"<<endl;
+        }
+    }
+
 };
 
 
@@ -181,6 +196,6 @@ int main() {
     g.printadj();
 
     g.checkrum();
-    // g.rummycheck();
+    g.rummycheck();
     return 0;
 }
