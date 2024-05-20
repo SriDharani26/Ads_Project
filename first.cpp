@@ -1,5 +1,6 @@
 #include<iostream>
 #include<bits/stdc++.h>
+#include <fstream>
 using namespace std;
 
 #define INF 999
@@ -156,7 +157,7 @@ public:
                 // cout<<"Unvisited node";
                 // cout<<i->card.symbol<<""<<i->card.value<<" ";
                 dummy(i,0);
-            }
+             }
         }
     }
 
@@ -165,24 +166,29 @@ public:
 
 int main() {
     Graph g;
-    g.ivertex({10,'d'});
-    g.ivertex({11,'h'});
-    g.ivertex({12,'h'});
-    g.ivertex({13,'h'});
-    g.ivertex({4,'s'});
-    g.ivertex({5,'s'});
-    g.ivertex({6,'s'});
-    g.ivertex({7,'s'});
+    ifstream card("cards.txt");
+    string value;
+    while(card>>value){
+        cout<<value<<" ";
+    }
+    // g.ivertex({10,'d'});
+    // g.ivertex({11,'h'});
+    // g.ivertex({12,'h'});
+    // g.ivertex({13,'h'});
+    // g.ivertex({4,'s'});
+    // g.ivertex({5,'s'});
+    // g.ivertex({6,'s'});
+    // g.ivertex({7,'s'});
     
-    g.ivertex({2,'c'});
-    g.ivertex({3,'c'});
-    g.ivertex({4,'c'});
-    g.ivertex({10,'s'});
-    g.ivertex({10,'c'});
+    // g.ivertex({2,'c'});
+    // g.ivertex({3,'c'});
+    // g.ivertex({4,'c'});
+    // g.ivertex({10,'s'});
+    // g.ivertex({10,'c'});
 
-    g.addedge();
-    g.printadj();
+    // g.addedge();
+    // g.printadj();
 
-    g.checkrum();
+    // g.checkrum();
     return 0;
 }
