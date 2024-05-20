@@ -82,69 +82,102 @@ public:
         }
         return true;
     }
+
+    void nearest(vertex * v,int count){
+        // v->card.visit=true;
+       
+        for(auto i:v->wadj){
+            
+            if(!i.first->card.visit){
+                if(i.second==1){
+                    cout<<i.first->card.symbol<<i.first->card.value<<" ";
+                    i.first->card.visit=true;
+                    
+                     if(count==3 || count ==4){
+                        cout<<"one rummy is created"<<endl;
+                        count=1;
+                    }
+                    else{
+                        count+=1;
+                        cout<<endl;
+                    }
+                    nearest(i.first,count);
+                    
+                }
+                // else{
+                //     i.first->card.visit=false;
+                //     cout<<"Single node"<<endl;
+                //     cout<<i.first->card.symbol<<i.first->card.value;
+                // }
+            }
+        }
+        
+    }
+
+    void dummy(vertex *v,int count){
+        for(auto i:v->wadj){
+            
+            if(!i.first->card.visit){
+                if(i.second==0){
+                    cout<<i.first->card.symbol<<i.first->card.value<<" ";
+                    i.first->card.visit=true;
+                    
+                     if(count==3 || count ==4){
+                        cout<<"one dummy rummy is created"<<endl;
+                        count=1;
+                    }
+                    else{
+                        count+=1;
+                        cout<<endl;
+                    }
+                    nearest(i.first,count);
+                    
+                }
+                else{
+                    i.first->card.visit=false;
+                //     cout<<"Single node"<<endl;
+                //     cout<<i.first->card.symbol<<i.first->card.value;
+                }
+            }
+        }
+    }
     void checkrum(){
-        Card narr[13];
-        int n=0;
-        queue<vertex*> q;
         for(auto i:graph){
             
             if(!i->card.visit){
-                i->card.visit=true;
-                     narr[n++]=i->card; 
-
-            for(auto  j:i->wadj){
-                if(!j.first->card.visit){
-                    if(i->card.symbol==j.first->card.symbol && abs(i->card.value-j.first->card.value)==1){
-                    narr[n++]=j.first->card; 
-                    j.first->card.visit=true;
-
-                }
-            }
-            }
-           
-            }
-        }
-        int count=0;
-        int main=0;
-        for(int i=0;i<13;i++){
-            cout<<narr[i].symbol<<narr[i].value<<" ";
-            if(narr[i].symbol==narr[i+1].symbol){
-
-                if(abs(narr[i].value-narr[i+1].value)==1){
-                    count+=1;
-                    if((count%3)==0||(count%4)==0){
-                        count=0;
-                        main+=1;
-                    }   
-                }
+                nearest(i,1);
             }
             
         }
-        cout<<endl;
-     cout<<"No of main set :"<<main<<endl;
+        for(auto i:graph){
+            
+            if(!i->card.visit){
+                // cout<<"Unvisited node";
+                cout<<i->card.symbol<<""<<i->card.value<<" ";
+                dummy(i,1);
+            }
+        }
     }
-   
-
 
 };
 
 
 int main() {
     Graph g;
-
+    g.ivertex({10,'d'});
     g.ivertex({11,'h'});
-    g.ivertex({12,'a'});
+    g.ivertex({12,'h'});
     g.ivertex({13,'h'});
     g.ivertex({4,'s'});
     g.ivertex({5,'s'});
     g.ivertex({6,'s'});
     g.ivertex({7,'s'});
-    g.ivertex({1,'a'});
+    
     g.ivertex({2,'c'});
     g.ivertex({3,'c'});
-    g.ivertex({8,'s'});
-    g.ivertex({12,'s'});
+    g.ivertex({4,'c'});
     g.ivertex({10,'s'});
+    g.ivertex({10,'c'});
 
     g.addedge();
     g.printadj();
