@@ -126,6 +126,7 @@ public:
                     cout<<i.first->card.symbol<<i.first->card.value<<" ";
                     
                     count+=1;
+                    // cout<<count<<endl;
                      if(count==3 || count ==4){
                         cout<<"one dummy rummy is created"<<endl;
                         count=1;
@@ -156,9 +157,19 @@ public:
             if(!i->card.visit){
                 // cout<<"Unvisited node";
                 // cout<<i->card.symbol<<""<<i->card.value<<" ";
-                dummy(i,0);
+                dummy(i,1);
              }
         }
+        for(auto i:graph){
+            
+            if(!i->card.visit){
+                cout<<"Unvisited node";
+                cout<<i->card.symbol<<""<<i->card.value<<" ";
+                
+             }
+        }
+
+
     }
 
 };
@@ -168,27 +179,44 @@ int main() {
     Graph g;
     ifstream card("cards.txt");
     string value;
-    while(card>>value){
-        cout<<value<<" ";
+    vector<string> set1;
+    vector<string> set2;
+    vector<string> set3;
+    vector<string> set4;
+    int c=1;
+    while(card>>value && c<14){
+        set1.push_back(value);
+        c++;
+
+        // if(c==1){
+        // }
+        // else if(c==2){
+        //     set2.push_back(value);
+        // }
+        // else if(c==3){
+        //     set3.push_back(value);
+        // }
+        // else if(c==4){
+        //     set4.push_back(value);
+        // }
+        // c+=1;
+        // if(c==5){
+        //     c=0;
+        // }
+        
     }
-    // g.ivertex({10,'d'});
-    // g.ivertex({11,'h'});
-    // g.ivertex({12,'h'});
-    // g.ivertex({13,'h'});
-    // g.ivertex({4,'s'});
-    // g.ivertex({5,'s'});
-    // g.ivertex({6,'s'});
-    // g.ivertex({7,'s'});
+    for(auto deck:set1){
+        cout<<deck<<" ";
+        char suit = deck[0];
+
+        int value = stoi(deck.substr(1));
+        g.ivertex({value,suit});
+    }
     
-    // g.ivertex({2,'c'});
-    // g.ivertex({3,'c'});
-    // g.ivertex({4,'c'});
-    // g.ivertex({10,'s'});
-    // g.ivertex({10,'c'});
 
-    // g.addedge();
-    // g.printadj();
+    g.addedge();
+    g.printadj();
 
-    // g.checkrum();
+    g.checkrum();
     return 0;
 }
