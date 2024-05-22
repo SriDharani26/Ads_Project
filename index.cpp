@@ -75,105 +75,68 @@ public:
         }
     }
 
-        void nearest(vertex* v, int& count){  
-            //  v->card.visit=true;
+    void remove(vertex * u){
+        for(auto i:graph){
+            if(i==u){
+                delete u;
+            }
+        }
+    }
+    vertex * adjvertex(vertex *u){
+        for(auto i:u->wadj){
+            if(i.second==1 && i.first->card.visit!=true){
+                i.first->card.visit=true;
+                return i.first;
+            }
             
-            for(auto i : v->wadj){    
-                if(!i.first->card.visit && i.second == 1){
-                    cout << i.first->card.symbol << i.first->card.value << " ";
-                    i.first->card.visit = true;
-                   
-                    count++;
-                    if(count == 3 || count == 4){
-                        
-                        cout << "one rummy is created" << endl;
-                        m_sets+=1;
-                        count = 0;
+        }
+        return u;
+    }
+    void checkrum(){
+        vector<vertex*> mainset;
+        vector<vertex*> newmain;
+        for(auto i:graph){
+            if(i->card.visit!=true){
+                vertex *k;
+                i->card.visit=true;
+                mainset.push_back(i);
+                k=adjvertex(i);
+                while((k->card.symbol!=i->card.symbol || k->card.value!=i->card.value)){
+                    k->card.visit=true;
+                    mainset.push_back(k);
+                    i=k;
+                    vertex *y=adjvertex(k);  
+                    k=y;
+                }
+                cout<<"Size of "<<mainset.size()<<endl;
+                if(mainset.size()==3|| mainset.size()==4){
+                    for(auto k:mainset){
+                        cout<<k->card.symbol<<k->card.value<<" ";
                     }
-                    else {
-                        cout << endl;
+                    mainset.clear();
+                }
+                else{
+                    for(auto k:mainset){
+                        newmain.push_back(k);
+                        k->card.visit=false;
                     }
-                    nearest(i.first, count);
+                    mainset.clear();
                     
                 }
             }
-    }
 
-    void dummy(vertex* v, int& count){
-       
-        for(auto i : v->wadj){
-            if(!i.first->card.visit && abs (i.first->card.value - v->card.value)== 0){
-                i.first->card.visit = true;
-                cout << i.first->card.symbol << i.first->card.value << " ";
-                count++;
-                if(count == 3 || count == 4){
-                    cout << "one dummy rummy is created" << endl;
-                    d_sets+=1;
-                    count = 0;
-                }
-                else {
-                    cout << endl;
-                }
-                
-                
-
-                dummy(i.first, count);
+            for(auto i:newmain){
+                cout<<i->card.symbol<<i->card.value<<" ";
             }
         }
-    }
-
-
-
-    void checkrum(){
-        for(auto i : graph){
-            if(!i->card.visit){
-                int count = 0;
-                nearest(i, count);
-                cout << endl;
-            }
-        }
-
-        for(auto i : graph){
-            if(!i->card.visit){
-                int count = 0;
-                dummy(i, count);
-                cout << endl;
-            }
-        }
-        for(auto i : graph){
-            if(!i->card.visit){
-                cout << "Unvisited node ";
-                cout << i->card.symbol << i->card.value << " ";
-                cout << endl;
-            }
-        }
-    }
-
-    void rummycheck(){
-        if(m_sets>1){
-            if(m_sets+d_sets==4){
-                cout<<"rummy formed"<<endl;
-            }
-            else{
-                cout<<"rummy not formed"<<endl;
-            }
-        }
-        else{
-            cout<<"rummy not formed"<<endl;
-        }
+            
     }
 
 };
 
 
 int main() {
-    
-
-
-
-
-
-  Graph g;
+    Graph g;
     ifstream card("cards.txt");
     string value;
     vector<string> set1;
@@ -202,6 +165,6 @@ int main() {
     g.printadj();
 
     g.checkrum();
-    g.rummycheck();
+ 
     return 0;
 }
