@@ -75,133 +75,301 @@ public:
         }
     }
 
-        void nearest(vertex* v, int& count){  
-            //  v->card.visit=true;
-            
-            for(auto i : v->wadj){    
-                if(!i.first->card.visit && i.second == 1){
-                    cout << i.first->card.symbol << i.first->card.value << " ";
-                    i.first->card.visit = true;
-                   
-                    count++;
-                    if(count == 3 || count == 4){
-                        
-                        cout << "one rummy is created" << endl;
-                        m_sets+=1;
-                        count = 0;
-                    }
-                    else {
-                        cout << endl;
-                    }
-                    nearest(i.first, count);
-                    
-                }
-            }
-    }
-
-    void dummy(vertex* v, int& count){
-       
-        for(auto i : v->wadj){
-            if(!i.first->card.visit && abs (i.first->card.value - v->card.value)== 0){
+        vertex* adjvertex(vertex* u){
+        for(auto& i : u->wadj){
+            if(!i.first->card.visit && i.second==1){
                 i.first->card.visit = true;
-                cout << i.first->card.symbol << i.first->card.value << " ";
-                count++;
-                if(count == 3 || count == 4){
-                    cout << "one dummy rummy is created" << endl;
-                    d_sets+=1;
-                    count = 0;
+                return i.first;
+            }
+        }
+        return nullptr;
+    }
+
+    vertex* adjvertexdum(vertex* u){
+        for(auto& i : u->wadj){
+            if(!i.first->card.visit && i.second==0){
+                i.first->card.visit = true;
+                return i.first;
+            }
+        }
+        return nullptr;
+    }
+
+    int checkrum(){
+        set<vertex*> newmain;
+        set<vertex*> newmain1;
+        int count=0;
+        int count1=0;
+        for(auto i : graph){
+            if(!i->card.visit){
+                vector<vertex*> mainset;
+                vertex* k = i;
+                k->card.visit = true;
+                mainset.push_back(k);
+                k = adjvertex(k);
+                while(k && (k->card.symbol == mainset[0]->card.symbol || k->card.value == mainset[0]->card.value)){
+                    mainset.push_back(k);
+                    k = adjvertex(k);
                 }
-                else {
+                if(mainset.size() == 3 || mainset.size() == 4){
+                    for(auto k : mainset){
+                        cout << k->card.symbol << k->card.value << " ";
+
+                    }
+                    count+=1;
                     cout << endl;
+                } else {
+                    for(auto k : mainset){
+                        newmain.insert(k);
+                        k->card.visit = false;
+                    }
                 }
-                
-                
-
-                dummy(i.first, count);
             }
         }
+        cout<<"Main set count : "<<count<<endl;
+        cout << "Remaining cards in newmain:" << endl;
+        for(auto i : newmain){
+            cout << i->card.symbol << i->card.value << " ";
+        }
+
+        cout << endl;
+        for(auto i:newmain){
+            if(!i->card.visit){
+                vector<vertex*> mainset1;
+                vertex* k = i;
+                k->card.visit = true;
+                mainset1.push_back(k);
+                k = adjvertexdum(k);
+                while(k && (k->card.symbol == mainset1[0]->card.symbol || k->card.value == mainset1[0]->card.value)){
+                    mainset1.push_back(k);
+                    k = adjvertexdum(k);
+                }
+                if(mainset1.size() == 3 || mainset1.size() == 4){
+                    for(auto k : mainset1){
+                        cout << k->card.symbol << k->card.value << " ";
+                    }
+                    count1+=1;
+                    cout << endl;
+                } else {
+                    for(auto k : mainset1){
+                        newmain1.insert(k);
+                        k->card.visit = false;
+                    }
+                }
+            }
+        }
+        cout<<"Dummy set count : "<<count1<<endl;
+        cout << "Remaining cards in newmain:" << endl;
+        for(auto i : newmain1){
+
+            cout << i->card.symbol << i->card.value << " ";
+        }
+
+        
+        return count1+count;
     }
 
 
+     int checkrum1(){
+        set<vertex*> newmain;
+        set<vertex*> newmain1;
+        int count=0;
+        int count1=0;
+        for(auto i : graph){
+            if(!i->card.visit){
+                vector<vertex*> mainset;
+                vertex* k = i;
+                k->card.visit = true;
+                mainset.push_back(k);
+                k = adjvertex(k);
+                while(k && (k->card.symbol == mainset[0]->card.symbol || k->card.value == mainset[0]->card.value)){
+                    mainset.push_back(k);
+                    k = adjvertex(k);
+                }
+                if(mainset.size() == 3 || mainset.size() == 4){
+                    // for(auto k : mainset){
+                    //     cout << k->card.symbol << k->card.value << " ";
 
-    void checkrum(){
-        for(auto i : graph){
-            if(!i->card.visit){
-                int count = 0;
-                nearest(i, count);
-                cout << endl;
+                    // }
+                    count+=1;
+                    // cout << endl;
+                } else {
+                    for(auto k : mainset){
+                        newmain.insert(k);
+                        k->card.visit = false;
+                    }
+                }
             }
         }
+        // cout<<"Main set count : "<<count<<endl;
+        // cout << "Remaining cards in newmain:" << endl;
+        // for(auto i : newmain){
+        //     cout << i->card.symbol << i->card.value << " ";
+        // }
 
-        for(auto i : graph){
+        cout << endl;
+        for(auto i:newmain){
             if(!i->card.visit){
-                int count = 0;
-                dummy(i, count);
-                cout << endl;
+                vector<vertex*> mainset1;
+                vertex* k = i;
+                k->card.visit = true;
+                mainset1.push_back(k);
+                k = adjvertexdum(k);
+                while(k && (k->card.symbol == mainset1[0]->card.symbol || k->card.value == mainset1[0]->card.value)){
+                    mainset1.push_back(k);
+                    k = adjvertexdum(k);
+                }
+                if(mainset1.size() == 3 || mainset1.size() == 4){
+                    // for(auto k : mainset1){
+                    //     cout << k->card.symbol << k->card.value << " ";
+                    // }
+                    count1+=1;
+                    // cout << endl;
+                } else {
+                    for(auto k : mainset1){
+                        newmain1.insert(k);
+                        k->card.visit = false;
+                    }
+                }
             }
         }
-        for(auto i : graph){
-            if(!i->card.visit){
-                cout << "Unvisited node ";
-                cout << i->card.symbol << i->card.value << " ";
-                cout << endl;
-            }
-        }
+        // cout<<"Dummy set count : "<<count1<<endl;
+        // cout << "Remaining cards in newmain:" << endl;
+        // for(auto i : newmain1){
+
+        //     cout << i->card.symbol << i->card.value << " ";
+        // }
+
+        
+        return count1+count;
     }
-
-    void rummycheck(){
-        if(m_sets>1){
-            if(m_sets+d_sets==4){
-                cout<<"rummy formed"<<endl;
-            }
-            else{
-                cout<<"rummy not formed"<<endl;
-            }
-        }
-        else{
-            cout<<"rummy not formed"<<endl;
-        }
-    }
-
 };
+
+void checkreplacement(vector<string> set1,int k,Graph g){
+        vector<string> set2;
+        string deckcard;
+        Graph g1[13];
+        
+        cout<<"Enter the deck card  :";
+        cin>>deckcard;
+        int count=0;
+        for(int i=0;i<13;i++){
+            int oldnum=g.graph[i]->card.value;
+            char oldval=g.graph[i]->card.symbol;
+          
+            set2=set1;
+            set2[i]=deckcard;
+            
+            sort(set2.begin(), set2.end()); 
+            for(auto deck:set2){
+                // cout<<deck<<" ";
+                char suit = deck[0];
+
+                int value = stoi(deck.substr(1));
+                g1[i].ivertex({value,suit});
+            }
+            
+        
+            g1[i].addedge();
+            
+            int y=g1[i].checkrum1();
+            
+            if(y>k){
+                cout<<"Replace :"<<oldnum<<oldval<<endl;
+                return ;
+            }
+            else if(y<k){
+                cout<<"Don't replace :"<<oldnum<<oldval<<endl;
+                count+=1;
+                
+            }
+            
+        }
+        if(count==13){
+            cout<<"Don't replace the cards"<<endl;
+        }
+}
+
+
+void checkrummyformation(Graph g);
 
 
 int main() {
-    
 
-
-
-
-
-  Graph g;
+    cout<<"-----------------------------------WELCOME TO RUMMY WORLD------------------------------------"<<endl;
+    cout<<"--------------This program will give you the basic idea of how to play rummy-----------------"<<endl;
+    cout<<"FEATURES:"<<endl;
+    cout<<"1.Rules \n2.Check whether the set of card forms rummy or not \n3.given card set and deck card give the information--whether to replace it or not \n4.Exit"<<endl;
+    int choice;
+    cout<<"Enter the choice:"<<endl;
+    cin>>choice;
     ifstream card("cards.txt");
     string value;
     vector<string> set1;
-    vector<string> set2;
-    vector<string> set3;
-    vector<string> set4;
-    int c=1;
-    while(card>>value && c<14){
-        set1.push_back(value);
-        c++; 
+  
+    int c = 0;
+    while(card >> value && c < 13 ){
+        
+            set1.push_back(value);
+            c++;
     }
+    
+    Graph g1;
+    int k;
+    while(1){
+        if(choice==1){
+            cout<<"1st menu"<<endl;
+            cout<<"Enter the choice:"<<endl;
+            cin>>choice;
+        }
+        else if(choice==2){
+            sort(set1.begin(), set1.end()); 
+   
+            for(auto deck : set1){
+                cout << deck << " ";
+                char suit = deck[0];
+                int value = stoi(deck.substr(1));
+                g1.ivertex({value, suit});
+            }
+            cout << endl;
+            g1.addedge();
+            k=g1.checkrum();
+            cout<<"No of sets formed  :"<<k<<endl;
+                
+            if(k!=4){
+                    cout<<"rummy not formed formed"<<endl;
+                }
+                else{
+                    cout<<"rummy formed"<<endl;
+                }
+                cout<<"Enter the choice:"<<endl;
+                cin>>choice;
+            }
+        else if(choice==3){
+            if(k!=4){
+                checkreplacement(set1,k,g1);
+                cout<<"Enter the choice:"<<endl;
+                cin>>choice;
+            }
+            else{
+                cout<<"rummy formed"<<endl;
+                cout<<"Enter the choice:"<<endl;
+                cin>>choice;
+            }
+            
+        }
+        else if(choice ==4){
+            cout<<"Exiting...";
+            return 0;
+        }
+        else{
+            cout<<"Entered the wrong choice"<<endl;
+            cout<<"Enter the choice:"<<endl;
+            cin>>choice;
+        }
+    }
+    
 
     
-    sort(set1.begin(), set1.end()); 
-    for(auto deck:set1){
-        cout<<deck<<" ";
-        char suit = deck[0];
-
-        int value = stoi(deck.substr(1));
-        g.ivertex({value,suit});
-    }
-    cout<<endl;
-    
-
-    g.addedge();
-    g.printadj();
-
-    g.checkrum();
-    g.rummycheck();
     return 0;
 }
