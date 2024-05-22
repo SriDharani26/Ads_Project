@@ -26,6 +26,7 @@ public:
     int n;
     int m_sets=0,d_sets=0;
     vector<vertex*> graph;
+    vector<vertex*> newset;
     
     Graph() : n(0) {}
 
@@ -102,17 +103,19 @@ public:
        
         for(auto i : v->wadj){
             if(!i.first->card.visit && abs (i.first->card.value - v->card.value)== 0){
+                i.first->card.visit = true;
+                cout << i.first->card.symbol << i.first->card.value << " ";
                 count++;
                 if(count == 3 || count == 4){
                     cout << "one dummy rummy is created" << endl;
-                    count = 0;
                     d_sets+=1;
+                    count = 0;
                 }
                 else {
                     cout << endl;
                 }
-                i.first->card.visit = true;
-                cout << i.first->card.symbol << i.first->card.value << " ";
+                
+                
 
                 dummy(i.first, count);
             }
@@ -124,18 +127,15 @@ public:
     void checkrum(){
         for(auto i : graph){
             if(!i->card.visit){
-                int count = 1;
-                // cout << i->card.symbol << i->card.value << " ";
-                // i->card.visit = true;
+                int count = 0;
                 nearest(i, count);
                 cout << endl;
             }
         }
+
         for(auto i : graph){
             if(!i->card.visit){
-                int count = 1;
-                cout << i->card.symbol << i->card.value << " ";
-                 i->card.visit = true;
+                int count = 0;
                 dummy(i, count);
                 cout << endl;
             }
