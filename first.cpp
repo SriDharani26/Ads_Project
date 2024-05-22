@@ -250,7 +250,7 @@ void checkreplacement(vector<string> set1,int k,Graph g){
         string deckcard;
         Graph g1[13];
         
-        cout<<"Enter the deck card :";
+        cout<<"Enter the deck card  :";
         cin>>deckcard;
         int count=0;
         for(int i=0;i<13;i++){
@@ -275,11 +275,11 @@ void checkreplacement(vector<string> set1,int k,Graph g){
             int y=g1[i].checkrum1();
             
             if(y>k){
-                cout<<"Replace :"<<oldval<<oldnum<<endl;
+                cout<<"Replace :"<<oldnum<<oldval<<endl;
                 return ;
             }
             else if(y<k){
-                cout<<"Don't replace :"<<oldval<<oldnum<<endl;
+                cout<<"Don't replace :"<<oldnum<<oldval<<endl;
                 count+=1;
                 
             }
@@ -301,12 +301,11 @@ int main() {
     cout<<"FEATURES:"<<endl;
     cout<<"1.Rules \n2.Check whether the set of card forms rummy or not \n3.given card set and deck card give the information--whether to replace it or not \n4.Exit"<<endl;
     int choice;
-    cout<<endl<<"Enter the choice:";
+    cout<<"Enter the choice:"<<endl;
     cin>>choice;
     ifstream card("cards.txt");
     string value;
     vector<string> set1;
-
   
     int c = 0;
     while(card >> value && c < 13 ){
@@ -319,14 +318,8 @@ int main() {
     int k;
     while(1){
         if(choice==1){
-            cout<<"***Rules***"<<endl;
-            ifstream rule("rules.txt");
-            string line;
-            while (getline(rule,line)) {
-        
-                cout<<line<<endl;
-            }
-            cout<<endl<<"Enter the choice:";
+            cout<<"1st menu"<<endl;
+            cout<<"Enter the choice:"<<endl;
             cin>>choice;
         }
         else if(choice==2){
@@ -349,18 +342,18 @@ int main() {
                 else{
                     cout<<"rummy formed"<<endl;
                 }
-                cout<<endl<<"Enter the choice:";
+                cout<<"Enter the choice:"<<endl;
                 cin>>choice;
             }
         else if(choice==3){
             if(k!=4){
                 checkreplacement(set1,k,g1);
-                cout<<endl<<"Enter the choice:";
+                cout<<"Enter the choice:"<<endl;
                 cin>>choice;
             }
             else{
                 cout<<"rummy formed"<<endl;
-                cout<<endl<<"Enter the choice:";
+                cout<<"Enter the choice:"<<endl;
                 cin>>choice;
             }
             
@@ -371,7 +364,7 @@ int main() {
         }
         else{
             cout<<"Entered the wrong choice"<<endl;
-            cout<<endl<<"Enter the choice:"<<endl;
+            cout<<"Enter the choice:"<<endl;
             cin>>choice;
         }
     }
