@@ -26,6 +26,7 @@ public:
     int n;
     int m_sets=0,d_sets=0;
     vector<vertex*> graph;
+    vector<vertex*> newset;
     
     Graph() : n(0) {}
 
@@ -107,6 +108,7 @@ public:
                 count++;
                 if(count == 3 || count == 4){
                     cout << "one dummy rummy is created" << endl;
+                    d_sets+=1;
                     count = 0;
                 }
                 else {
@@ -126,17 +128,14 @@ public:
         for(auto i : graph){
             if(!i->card.visit){
                 int count = 0;
-                // cout << i->card.symbol << i->card.value << " ";
-                // i->card.visit = true;
                 nearest(i, count);
                 cout << endl;
             }
         }
+
         for(auto i : graph){
             if(!i->card.visit){
                 int count = 0;
-                // cout << i->card.symbol << i->card.value << " ";
-                //  i->card.visit = true;
                 dummy(i, count);
                 cout << endl;
             }
